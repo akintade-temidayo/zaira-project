@@ -1,0 +1,18 @@
+info:
+  name: "get the top 4 "
+  type: http
+
+http:
+  method: GET
+  url: http://localhost:5000/api/posts?limit=4
+  params:
+    - name: limit
+      value: "4"
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

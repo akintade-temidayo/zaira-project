@@ -1,0 +1,14 @@
+info:
+  name: delete post
+  type: http
+
+http:
+  method: DELETE
+  url: http://localhost:5000/api/posts/6a4eb8de81ce11a43e448de6
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
