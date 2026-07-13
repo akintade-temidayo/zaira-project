@@ -89,7 +89,13 @@ return (
         {error && <p className="text-sm text-[#F4796C]">{error}</p>}
 
         <Button type="submit" variant="primary" disabled={loading} className="w-full mt-2">
-        {loading ? "Verifying..." : "Verify"}
+        {loading ? (<div className="flex items-center justify-center gap-1">
+                <div className="flex gap-1">
+                    <span className="dot w-3 h-3 rounded-2xl bg-[#FFF3F2] inline-block" />
+                    <span className="dot w-3 h-3 rounded-2xl bg-[#FFF3F2] inline-block" />
+                    <span className="dot w-3 h-3 rounded-2xl bg-[#FFF3F2] inline-block" />
+                </div>
+            </div>) : "Verify"}
         </Button>
     </form>
 

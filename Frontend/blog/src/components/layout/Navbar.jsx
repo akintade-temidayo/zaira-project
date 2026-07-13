@@ -23,32 +23,17 @@ export default function Navbar() {
     const router = useRouter();
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
-    
-    // Computed once during first render — avoids setState-in-effect warning
+
     const [isLoggedIn, setIsLoggedIn] = useState(() => Boolean(getToken()));
     const [currentUser, setCurrentUser] = useState(() => getUser() || null);
     const fetcher = () => getLikedPosts();
-    
 
-    const { data, error, isLoading } = useSWR(
+    const { data, mutate } = useSWR(
         getToken() ? "liked-posts" : null,
         fetcher
     );
 
     const likedCount = data?.count ?? 0;
-
-    const fetchLikedCount = async () => {
-        if (!getToken()) {
-            setLikedCount(0);
-            return;
-        }
-        try {
-            const data = await getLikedPosts();
-            setLikedCount(data.count || 0);
-        } catch {
-            setLikedCount(0);
-        }
-    };
 
     useEffect(() => {
         const checkAuth = () => {
@@ -56,15 +41,15 @@ export default function Navbar() {
             setCurrentUser(getUser() || null);
         };
 
-        // fetchLikedCount();
+        const refreshLikes = () => mutate();
 
         window.addEventListener("storage", checkAuth);
-        window.addEventListener("likes-updated", () => mutate("liked-posts"));
+        window.addEventListener("likes-updated", refreshLikes);
         return () => {
             window.removeEventListener("storage", checkAuth);
-            window.removeEventListener("likes-updated", fetchLikedCount);
+            window.removeEventListener("likes-updated", refreshLikes);
         };
-    }, []);
+    }, [mutate]);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -77,7 +62,6 @@ export default function Navbar() {
         removeUser();
         setIsLoggedIn(false);
         setCurrentUser(null);
-        // setLikedCount(0);
         router.push("/");
     };
 
@@ -94,17 +78,37 @@ export default function Navbar() {
                 </button>
 
                 <ul className="hidden lg:flex items-center gap-7 text-sm font-medium text-[#0C1622]">
-                    {NAV_LINKS.map((link) => (
-                        <li key={link.label}>
-                            <Link
-                                href={link.href}
-                                className="flex items-center gap-1 hover:text-[#F4796C] transition-colors"
-                            >
-                                {link.label}
-                                {link.hasDropdown && <ChevronDown size={14} />}
-                            </Link>
-                        </li>
-                    ))}
+                    {NAV_LINKS.map((link) =>
+                        link.label === "Categories" ? (
+                            <li key={link.label} className="relative group">
+                                <button className="flex items-center gap-1 hover:text-[#F4796C] transition-colors">
+                                    {link.label}
+                                    <ChevronDown size={14} />
+                                </button>
+                                <div className="absolute left-0 top-full mt-2 w-36 bg-white border border-[#DFDFDF] rounded-lg shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                                    {["breakfast", "lunch", "dinner"].map((cat) => (
+                                        <Link
+                                            key={cat}
+                                            href={`/category/${cat}`}
+                                            className="block px-4 py-2 text-sm capitalize text-[#0C1622] hover:bg-[#E8F1F1] hover:text-[#F4796C] first:rounded-t-lg last:rounded-b-lg"
+                                        >
+                                            {cat}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </li>
+                        ) : (
+                            <li key={link.label}>
+                                <Link
+                                    href={link.href}
+                                    className="flex items-center gap-1 hover:text-[#F4796C] transition-colors"
+                                >
+                                    {link.label}
+                                    {link.hasDropdown && <ChevronDown size={14} />}
+                                </Link>
+                            </li>
+                        )
+                    )}
                 </ul>
 
                 <Link href="/" className="flex items-center">

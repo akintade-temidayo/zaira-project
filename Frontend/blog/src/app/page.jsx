@@ -9,7 +9,8 @@ import NewsletterBanner from "@/components/landing/NewsletterBanner";
 import CategorySection from "@/components/landing/CategorySection";
 import WeeklyBest from "@/components/landing/WeeklyBest";
 import LatestRecipes from "@/components/landing/LatestRecipes";
-// import AuthorCard from "@/components/landing/AuthorCard";
+import Image from "next/image";
+import logo from "../../public/logo.png";
 
 // Fisher-Yates shuffle — true random, different every call
 function shufflePosts(array) {
@@ -52,46 +53,6 @@ function getWeekSeed() {
     return Math.floor(daysSinceAnchor / 7);
 }
 
-// Subscribe & Followers sidebar section
-// function SubscribeFollowers() {
-//     const PLATFORMS = [
-//         { label: "Facebook", bg: "#1877F2", letter: "f" },
-//         { label: "Twitter", bg: "#1DA1F2", letter: "t" },
-//         { label: "Instagram", bg: "#E1306C", letter: "in" },
-//         { label: "Youtube", bg: "#FF0000", letter: "yt" },
-//         { label: "LinkedIn", bg: "#0A66C2", letter: "li" },
-//         { label: "Pinterest", bg: "#E60023", letter: "p" },
-//     ];
-
-//     return (
-//         <div className="border border-[#E2E8F0] rounded-xl p-5">
-//             <h3 className="text-[#0C1622] font-bold text-base mb-1">
-//                 Subscribe & Followers
-//             </h3>
-//             <div className="h-0.5 w-8 bg-[#F4796C] mb-4 rounded-full" />
-//             <div className="grid grid-cols-2 gap-3">
-//                 {PLATFORMS.map((p) => (
-//                     <a
-//                         key={p.label}
-//                         href={`#${p.label.toLowerCase()}`}
-//                         className="flex items-center gap-2 border border-[#E2E8F0] rounded-lg px-3 py-2.5 hover:border-[#F4796C] hover:bg-[#FFF3F2] transition-colors"
-//                     >
-//                         <span
-//                             className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0"
-//                             style={{ backgroundColor: p.bg }}
-//                         >
-//                             {p.letter}
-//                         </span>
-//                         <span className="text-xs font-medium text-[#545E69]">
-//                             {p.label}
-//                         </span>
-//                     </a>
-//                 ))}
-//             </div>
-//         </div>
-//     );
-// }
-
 export default function HomePage() {
     const [allPosts, setAllPosts] = useState([]);
     const [heroPosts, setHeroPosts] = useState([]);
@@ -127,21 +88,29 @@ export default function HomePage() {
     // so allPosts[0] is always the latest post
     const latestAuthor = allPosts[0]?.author || null;
 
-    if (loading) {
+        if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-white">
-                <div className="w-8 h-8 border-4 border-[#F4796C] border-t-transparent rounded-full animate-spin" />
+                <Image
+                    src={logo}
+                    alt="Zaira"
+                    height={60}
+                    width={0}
+                    style={{ height: "60px", width: "auto" }}
+                    className="animate-pulse"
+                    priority
+                />
             </div>
         );
-    }
+        }
 
-    if (error) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-white">
-                <p className="text-[#F4796C] text-sm">{error}</p>
-            </div>
-        );
-    }
+        if (error) {
+            return (
+                <div className="min-h-screen flex items-center justify-center bg-white">
+                    <p className="text-[#F4796C] text-sm">{error}</p>
+                </div>
+            );
+        }
 
     return (
     <div className="min-h-screen bg-white flex flex-col">

@@ -1,9 +1,10 @@
 "use client"
-
 import React from "react";
+import Link from "next/link"; // Imported Next.js Link
 
 export default function AuthorCard({ author, className = "" }) {
     if (!author) return null;
+    
 
     // SVG icons to replace lucide brand limitations safely
     const SOCIAL_ICONS = {
@@ -31,57 +32,65 @@ export default function AuthorCard({ author, className = "" }) {
         )
     };
 
-    return (
-    /* 1. REMOVED overflow-hidden from the main wrapper container */
-    <div className={`relative bg-[#FAFAFA] border border-[#E2E8F0] rounded-xl px-6 pb-8 pt-20 flex flex-col items-center text-center mt-12 shadow-xs ${className}`}>
-        
-        {/* 2. ADDED rounded-xl and overflow-hidden specifically to the background container */}
-        <div 
-            className="absolute inset-0 bg-cover bg-center pointer-events-none opacity-80 mix-blend-multiply rounded-xl overflow-hidden"
-            style={{ backgroundImage: "url('/Background.png')" }}
-        >
-            {/* The straight solid accent line goes inside here so its corners clip beautifully */}
-            <div className="absolute top-0 inset-x-0 h-[4px] bg-[#F4796C]" />
-        </div>
+    // Assumed dynamic route path for user profiles. Adjust if your route path varies!
+    const profileLink = `/profile/${author._id || author.id}`;
 
-        {/* Floating Profile Image Container - Now safely unclipped! */}
-        <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full p-1 bg-white shadow-md z-10">
-            <div className="w-full h-full rounded-full overflow-hidden bg-[#F2F4F7]">
-                {author.profilePicture ? (
-                    <img
-                        src={author.profilePicture}
-                        alt={author.fullName}
-                        className="w-full h-full object-cover"
-                    />
-                ) : (
-                    <div className="w-full h-full flex items-center justify-center text-3xl bg-slate-100">
-                        👤
-                    </div>
-                )}
+    return (
+        <div className={`relative bg-[#FAFAFA] border border-[#E2E8F0] rounded-xl px-6 pb-8 pt-20 flex flex-col items-center text-center mt-12 shadow-xs transition-all hover:shadow-sm ${className}`}>
+            
+            {/* Background container decoration */}
+            <div 
+                className="absolute inset-0 bg-cover bg-center pointer-events-none opacity-80 mix-blend-multiply rounded-xl overflow-hidden"
+                style={{ backgroundImage: "url('/Background.png')" }}
+            >
+                <div className="absolute top-0 inset-x-0 h-[4px] bg-[#F4796C]" />
+            </div>
+
+            {/* Floating Profile Image - wrapped with Next.js Link */}
+            <Link 
+                href={profileLink}
+                className="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full p-1 bg-white shadow-md z-10 transition-transform hover:scale-105 active:scale-95 duration-200 block"
+            >
+                <div className="w-full h-full rounded-full overflow-hidden bg-[#F2F4F7]">
+                    {author.profilePicture ? (
+                        <img
+                            src={author.profilePicture}
+                            alt={author.fullName}
+                            className="w-full h-full object-cover"
+                        />
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center text-3xl bg-slate-100">
+                            👤
+                        </div>
+                    )}
+                </div>
+            </Link>
+
+            {/* Author Name Text - wrapped with Next.js Link */}
+            <h3 className="text-[#0C1622] font-bold text-xl tracking-tight z-10 hover:text-[#F4796C] transition-colors duration-200">
+                <Link href={profileLink}>
+                    Hi, I&apos;m {author.fullName?.split(" ")[0] || "Jenny"}!
+                </Link>
+            </h3>
+            
+            <p className="text-[13px] text-[#4A5568] mt-4 leading-relaxed max-w-[290px] font-medium z-10">
+                {author.bio || "When An Unknown Printer Took A Galley Of Type And Scrambled It To Make A Type Specimen Book."}
+            </p>
+
+            {/* Social Icons Loop */}
+            <div className="flex gap-3 mt-6 z-10">
+                {Object.keys(SOCIAL_ICONS).map((platform) => (
+                    <a
+                        href={`#${platform}`}
+                        key={platform}
+                        // Added onClick stopPropagation so it doesn't bubbling-trigger parent card navigation actions
+                        onClick={(e) => e.stopPropagation()} 
+                        className="w-8 h-8 rounded-full bg-[#F4796C] hover:bg-[#e26255] hover:scale-105 transition-all flex items-center justify-center text-white shadow-xs"
+                    >
+                        {SOCIAL_ICONS[platform]}
+                    </a>
+                ))}
             </div>
         </div>
-
-        {/* Content Area */}
-        <h3 className="text-[#0C1622] font-bold text-xl tracking-tight z-10">
-            Hi, I&apos;m {author.fullName?.split(" ")[0] || "Jenny"}!
-        </h3>
-        
-        <p className="text-[13px] text-[#4A5568] mt-4 leading-relaxed max-w-[290px] font-medium z-10">
-            {author.bio || "When An Unknown Printer Took A Galley Of Type And Scrambled It To Make A Type Specimen Book."}
-        </p>
-
-        {/* Social Icons Loop */}
-        <div className="flex gap-3 mt-6 z-10">
-            {Object.keys(SOCIAL_ICONS).map((platform) => (
-                <a
-                    href={`#${platform}`}
-                    key={platform}
-                    className="w-8 h-8 rounded-full bg-[#F4796C] hover:bg-[#e26255] hover:scale-105 transition-all flex items-center justify-center text-white shadow-xs"
-                >
-                    {SOCIAL_ICONS[platform]}
-                </a>
-            ))}
-        </div>
-    </div>
-);
+    );
 }

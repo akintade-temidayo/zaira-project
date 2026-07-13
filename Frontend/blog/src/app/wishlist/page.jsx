@@ -38,7 +38,14 @@ export default function WishlistPage() {
                 Your Liked Recipes
             </h1>
 
-            {loading && <p className="text-sm text-[#6D757F]">Loading...</p>}
+            {loading && <div className="min-h-screen flex items-center justify-center gap-2 flex-col">
+                <p className="text-md text-[#F4796C] font-bold">Loading...Please wait</p>
+                <div className="flex gap-1 pb-2">
+                    <span className="dot w-4 h-4 rounded-2xl bg-[#F4796C] inline-block" />
+                    <span className="dot w-4 h-4 rounded-2xl bg-[#F4796C] inline-block" />
+                    <span className="dot w-4 h-4 rounded-2xl bg-[#F4796C] inline-block" />
+                </div>
+                </div>}
             {error && <p className="text-sm text-[#F4796C]">{error}</p>}
 
             {!loading && posts.length === 0 && (

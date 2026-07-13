@@ -39,11 +39,25 @@ const login = async (req, res) =>{
             })
         }
 
+        if (!user.isActive) {
+            return res.status(403).json({
+                success: false,
+                message: 'Your account has been disabled. Request reactivation to regain access.',
+                disabled: true
+            })
+        }
+
         // successful login
+        const adminEmails = process.env.ADMIN_EMAILS
+            ? process.env.ADMIN_EMAILS.split(',').map(e => e.trim().toLowerCase())
+            : []
+        const isAdmin = adminEmails.includes(user.email.toLowerCase())
+
         res.status(200).json({
             success: true,
-            message :'Login successful',
+            message: 'Login successful',
             token: user._id,
+            isAdmin,
             user: {
                 id: user._id,
                 fullName: user.fullName,

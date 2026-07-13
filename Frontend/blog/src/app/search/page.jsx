@@ -46,8 +46,13 @@ function SearchContent() {
             </div>
 
             {loading ? (
-                <div className="flex justify-center py-20">
-                    <div className="w-8 h-8 border-4 border-[#F4796C] border-t-transparent rounded-full animate-spin" />
+                <div className="min-h-screen flex items-center justify-center gap-2 flex-col">
+                <p className="text-md text-[#F4796C] font-bold">Loading...Please wait</p>
+                <div className="flex gap-1 pb-2">
+                    <span className="dot w-4 h-4 rounded-2xl bg-[#F4796C] inline-block" />
+                    <span className="dot w-4 h-4 rounded-2xl bg-[#F4796C] inline-block" />
+                    <span className="dot w-4 h-4 rounded-2xl bg-[#F4796C] inline-block" />
+                </div>
                 </div>
             ) : results.length === 0 ? (
                 <div className="text-center py-20">

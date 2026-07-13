@@ -8,6 +8,7 @@ import Button from "@/components/ui/Button";
 import PostModal from "@/components/dashboard/PostModal";
 import PostItem from "@/components/dashboard/PostItem";
 import Link from "next/link";
+import { CircleArrowLeft } from 'lucide-react';
 
 export default function DashboardPage() {
     const router = useRouter();
@@ -95,20 +96,7 @@ export default function DashboardPage() {
                     <h1 className="text-lg sm:text-xl font-bold text-[#0C1622]">
                         My Dashboard
                     </h1>
-                    <Link
-                        href="/"
-                        className="text-sm text-[#7C91AA] hover:text-[#F4796C] transition-colors flex items-center gap-1"
-                    >
-                        ← View Site
-                    </Link>
                     <div className="flex items-center gap-3">
-                        <Button
-                            variant="primary"
-                            size="sm"
-                            onClick={handleNewPost}
-                        >
-                            + New Post
-                        </Button>
                         <Button
                             variant="outline"
                             size="sm"
@@ -122,6 +110,23 @@ export default function DashboardPage() {
 
             {/* Main content */}
             <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <div className="flex justify-between items-center mb-3">
+                <Link
+                    href="/"
+                    className="text-sm p-1 text-[#7C91AA] hover:text-[#F4796C] transition-colors flex items-center gap-1">
+                    <CircleArrowLeft />
+                    View Homepage
+                </Link>
+
+                <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={handleNewPost}
+                >
+                    + New Post
+                </Button>
+            </div>
+
                 {/* Stats bar */}
                 <div className="bg-white rounded-xl p-4 sm:p-6 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div>

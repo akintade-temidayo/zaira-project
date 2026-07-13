@@ -1,10 +1,19 @@
 info:
   name: Signup
   type: http
+  seq: 1
 
 http:
   method: POST
-  url: http://localhost:5000/auth/signup
+  url: http://localhost:5000/api/auth/signup
+  body:
+    type: json
+    data: |-
+      {
+        "fullName": "Temi Adebayo",
+        "email": "temi@gmail.com",
+        "password": "password123"
+      }
   auth: inherit
 
 settings:

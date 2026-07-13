@@ -45,7 +45,7 @@ export default function WeeklyBest({ posts = [] }) {
 
                 <div className="flex items-center gap-3">
                     {/* ✅ prev / next arrows */}
-                    <div className="flex items-center gap-1">
+                    {/* <div className="flex items-center gap-1">
                         <button
                             onClick={goToPrev}
                             className="h-7 w-7 rounded-full border border-[#DFDFDF] flex items-center justify-center hover:border-[#F4796C] hover:text-[#F4796C] transition"
@@ -58,7 +58,7 @@ export default function WeeklyBest({ posts = [] }) {
                         >
                             <ChevronRight size={14} />
                         </button>
-                    </div>
+                    </div> */}
 
                     <Link
                         href="/posts"

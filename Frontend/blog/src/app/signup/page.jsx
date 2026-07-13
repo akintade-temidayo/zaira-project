@@ -184,7 +184,11 @@ export default function SignupPage() {
                                 disabled={loading}
                                 className="w-full"
                             >
-                                {loading ? "Creating account..." : "Sign Up"}
+                                {loading ? (<div className="flex gap-1">
+                                    <span className="dot w-3 h-3 rounded-2xl bg-[#FFF3F2] inline-block" />
+                                    <span className="dot w-3 h-3 rounded-2xl bg-[#FFF3F2] inline-block" />
+                                    <span className="dot w-3 h-3 rounded-2xl bg-[#FFF3F2] inline-block" />
+                                </div>) : "Sign Up"}
                             </Button>
                         </form>
 

@@ -1,10 +1,18 @@
 info:
   name: login
   type: http
+  seq: 1
 
 http:
   method: POST
   url: http://localhost:5000/api/auth/login
+  body:
+    type: json
+    data: |-
+      {
+        "email": "temi@gmail.com",
+        "password": "password123"
+      }
   auth: inherit
 
 settings:

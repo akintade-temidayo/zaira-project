@@ -2,20 +2,25 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { apiRequest } from "@/lib/api";
-import { saveToken, saveUser } from "@/lib/authStorage";
+import { saveToken, saveUser, saveIsAdmin } from "@/lib/authStorage";
 import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const reactivated = searchParams.get("reactivated");
+
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showReactivationLink, setShowReactivationLink] = useState(false);
+
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -23,6 +28,7 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setShowReactivationLink(false);
     setLoading(true);
 
     try {
@@ -35,10 +41,23 @@ export default function LoginPage() {
       });
 
       saveToken(data.token);
-      saveUser(data.user); 
-      router.push("/dashboard");
+      saveUser(data.user);
+      saveIsAdmin(data.isAdmin);
+
+      // silent redirect based on role
+      if (data.isAdmin) {
+        router.push("/admin");       // ← admin goes here invisibly
+      } else {
+        router.push("/dashboard");   // ← regular users go here
+      }
     } catch (err) {
-      setError(err.message);
+      // check if account is disabled
+      if (err.message?.toLowerCase().includes("disabled")) {
+        setError(err.message);
+        setShowReactivationLink(true);
+      } else {
+        setError(err.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -51,6 +70,12 @@ export default function LoginPage() {
         <p className="text-sm text-[#6D757F] mb-6">
           Sign in to manage and share your recipes.
         </p>
+
+        {reactivated && (
+            <div className="bg-green-50 border border-green-200 text-green-700 rounded-lg px-4 py-3 text-sm mb-4">
+                ✅ Your account has been reactivated. You can now log in.
+            </div>
+        )}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <Input
@@ -86,8 +111,24 @@ export default function LoginPage() {
 
           {error && <p className="text-sm text-[#F4796C]">{error}</p>}
 
+          {showReactivationLink && (
+            <Link
+                href="/request-reactivation"
+                className="text-sm text-[#7C91AA] hover:text-[#183354] underline text-center block"
+            >
+                Request account reactivation →
+            </Link>
+          )}
+
           <Button type="submit" variant="primary" disabled={loading} className="w-full mt-2">
-            {loading ? "Signing in..." : "Sign In"}
+            {loading ? 
+              (<div className="flex items-center justify-center gap-2">                
+                <div className="flex gap-1 ">
+                    <span className="dot w-3 h-3 rounded-2xl bg-[#FFF3F2] inline-block" />
+                    <span className="dot w-3 h-3 rounded-2xl bg-[#FFF3F2] inline-block" />
+                    <span className="dot w-3 h-3 rounded-2xl bg-[#FFF3F2] inline-block" />
+                </div>
+              </div>) : "Sign In"}
           </Button>
           <div className="flex justify-end">
           <Link href="/forgot-password" className="text-sm text-[#7C91AA] hover:text-[#183354]">

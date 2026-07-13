@@ -102,7 +102,13 @@ const handleSubmit = async (e) => {
                         disabled={loading}
                         className="w-full bg-[#F4796C] text-white rounded-md py-2 text-sm font-medium hover:opacity-90 transition disabled:opacity-60"
                     >
-                        {loading ? 'Resetting...' : 'Reset Password'}
+                        {loading ? (<div className="flex items-center justify-center gap-1">
+                            <div className="flex gap-1">
+                                <span className="dot w-3 h-3 rounded-2xl bg-[#FFF3F2] inline-block" />
+                                <span className="dot  w-3 h-3 rounded-2xl bg-[#FFF3F2] inline-block" />
+                                <span className="dot w-3 h-3 rounded-2xl bg-[#FFF3F2] inline-block" />
+                            </div>
+                        </div>) : 'Reset Password'}
                     </button>
                 </form>
 

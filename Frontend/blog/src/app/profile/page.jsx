@@ -7,17 +7,19 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
+import Image from "next/image";
+import logo from "../../../public/logo.png";
 
 export default function ProfilePage() {
     const router = useRouter();
-    const [user, setUser] = useState(() => getUser());
+    const token = getToken();
+    const user = token ? getUser() : null;
 
     useEffect(() => {
-        const token = getToken();
         if (!token) {
             router.push("/login");
         }
-    }, [router]);
+    }, [router, token]);
 
     const handleLogout = () => {
         removeToken();
@@ -25,7 +27,18 @@ export default function ProfilePage() {
         router.push("/");
     };
 
-    if (!user) return null;
+    if (!token || !user) {
+        return (
+            <div className="min-h-screen flex items-center justify-center gap-2 flex-col">
+                <p className="text-md text-[#F4796C] font-bold">Loading...Please wait</p>
+                <div className="flex gap-1 pb-2">
+                    <span className="dot w-4 h-4 rounded-2xl bg-[#F4796C] inline-block" />
+                    <span className="dot w-4 h-4 rounded-2xl bg-[#F4796C] inline-block" />
+                    <span className="dot w-4 h-4 rounded-2xl bg-[#F4796C] inline-block" />
+                </div>
+                </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-[#E8F1F1] flex flex-col">
@@ -42,7 +55,7 @@ export default function ProfilePage() {
                         <div className="relative -mt-12 mb-4">
                             <div className="w-24 h-24 rounded-full border-4 border-white overflow-hidden bg-[#E8F1F1] flex items-center justify-center shadow-sm">
                                 {user.profilePicture ? (
-                                    <image
+                                    <img
                                         src={user.profilePicture}
                                         alt={user.fullName}
                                         className="w-full h-full object-cover"
@@ -67,26 +80,16 @@ export default function ProfilePage() {
                         {/* Actions */}
                         <div className="flex flex-col sm:flex-row gap-3">
                             <Link href="/dashboard" className="flex-1">
-                                <Button
-                                    variant="primary"
-                                    className="w-full"
-                                >
+                                <Button variant="primary" className="w-full">
                                     My Dashboard
                                 </Button>
                             </Link>
                             <Link href="/forgot-password" className="flex-1">
-                                <Button
-                                    variant="outline"
-                                    className="w-full"
-                                >
+                                <Button variant="outline" className="w-full">
                                     Change Password
                                 </Button>
                             </Link>
-                            <Button
-                                variant="dark"
-                                className="flex-1"
-                                onClick={handleLogout}
-                            >
+                            <Button variant="dark" className="flex-1" onClick={handleLogout}>
                                 Logout
                             </Button>
                         </div>
