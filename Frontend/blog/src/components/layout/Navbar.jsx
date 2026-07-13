@@ -140,13 +140,6 @@ export default function Navbar() {
                         </span>
                     </Link>
 
-                    <Link href="/cart" className="relative text-[#0C1622]">
-                        <ShoppingBag size={20} />
-                        <span className="absolute -top-2 -right-2 bg-[#F4796C] text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
-                            0
-                        </span>
-                    </Link>
-
                     <Link href="/profile" className="relative flex-shrink-0">
                         <div className="w-9 h-9 rounded-full border-2 border-[#DFDFDF] overflow-hidden bg-[#E8F1F1] flex items-center justify-center hover:border-[#F4796C] transition-colors">
                             {currentUser?.profilePicture ? (
@@ -188,8 +181,18 @@ export default function Navbar() {
                             {likedCount}
                         </span>
                     </Link>
-                    <Link href="/cart" className="text-[#0C1622]">
-                        <ShoppingBag size={20} />
+                    <Link href="/profile" className="relative flex-shrink-0">
+                        <div className="w-9 h-9 rounded-full border-2 border-[#DFDFDF] overflow-hidden bg-[#E8F1F1] flex items-center justify-center hover:border-[#F4796C] transition-colors">
+                            {currentUser?.profilePicture ? (
+                                <img
+                                    src={currentUser.profilePicture}
+                                    alt={currentUser.fullName || "Profile"}
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <User size={18} className="text-[#6D757F]" />
+                            )}
+                        </div>
                     </Link>
                 </div>
             </nav>
