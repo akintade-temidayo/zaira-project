@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../../public/logo.png";
+import { LayoutDashboard, UserKey, LogOut, UserRoundX } from 'lucide-react';
 
 export default function ProfilePage() {
     const router = useRouter();
@@ -75,23 +76,33 @@ export default function ProfilePage() {
                         </p>
 
                         {/* Divider */}
-                        <hr className="border-[#DFDFDF] my-6" />
+                        <hr className="border-[#DFDFDF] mt-6 mb-2" />
 
                         {/* Actions */}
-                        <div className="flex flex-col sm:flex-row gap-3">
-                            <Link href="/dashboard" className="flex-1">
-                                <Button variant="primary" className="w-full">
-                                    My Dashboard
-                                </Button>
+                        <div className="flex flex-col  ">
+                            {/* dashboard action */}
+                            <Link href="/dashboard" className="flex flex-row itwms-center gap-2 font-medium flex-1 w-full p-2 rounded-[5px] hover:bg-[rgb(124,145,170)] hover:text-[#DFDFDF]">
+                                    <LayoutDashboard /> Dashboard 
                             </Link>
-                            <Link href="/forgot-password" className="flex-1">
-                                <Button variant="outline" className="w-full">
-                                    Change Password
-                                </Button>
+
+                            <hr className="border-[#DFDFDF] my-2" />
+
+                            <Link href="/forgot-password" className="flex flex-row itwms-center gap-2 font-medium flex-1 w-full p-2 rounded-[5px] hover:bg-[#7C91AA] hover:text-[#DFDFDF]">
+                                    <UserKey /> Change Password
                             </Link>
-                            <Button variant="dark" className="flex-1" onClick={handleLogout}>
-                                Logout
-                            </Button>
+
+                            <hr className="border-[#DFDFDF] my-2" />
+
+                            <div onClick={handleLogout} className="flex flex-row itwms-center gap-2 font-medium flex-1 w-full p-2 rounded-[5px] hover:bg-[#7C91AA] hover:text-[#DFDFDF]">
+                                    <LogOut /> Logout
+                            </div>
+
+                            <hr className="border-[#DFDFDF] my-2" />
+
+                            <div onClick={handleLogout} className="flex flex-row itwms-center gap-2 bg-[#F4796C] font-medium flex-1 w-full p-3 rounded-[5px]">
+                                    <UserRoundX /> Delete Account
+                            </div>
+
                         </div>
                     </div>
                 </div>
