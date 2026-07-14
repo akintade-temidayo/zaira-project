@@ -1,4 +1,3 @@
-// stats card
 "use client";
 
 export default function StatsCards({ stats }) {
@@ -31,7 +30,7 @@ export default function StatsCards({ stats }) {
                     key={card.label}
                     className={`${card.bg} ${card.text} ${
                         card.border ? "border border-[#DFDFDF]" : ""
-                    } rounded-xl p-6 flex items-center justify-between`}
+                    } rounded-xl p-6 flex items-center justify-between transition-transform duration-500 shadow-md hover:shadow-lg ease-in-out hover:scale-105 cursor-pointer`}
                 >
                     <div>
                         <p className={`text-sm font-medium ${card.text} opacity-80`}>

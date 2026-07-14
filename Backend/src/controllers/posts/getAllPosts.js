@@ -16,7 +16,7 @@ const getAllPosts = async (req, res) => {
         }
 
         let query = Post.find(filter)
-            .populate('author', 'fullName profilePicture')
+            .populate('author', 'fullName profilePicture email')
             .sort({ createdAt: -1 })
 
         if (limit) {
