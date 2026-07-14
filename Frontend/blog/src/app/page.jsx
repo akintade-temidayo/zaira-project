@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { apiRequest } from "@/lib/api";
+import { getIsAdmin } from "@/lib/authStorage";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/landing/HeroSection";
@@ -11,6 +12,8 @@ import WeeklyBest from "@/components/landing/WeeklyBest";
 import LatestRecipes from "@/components/landing/LatestRecipes";
 import Image from "next/image";
 import logo from "../../public/logo.png";
+import Link from "next/link";
+import { UserStar } from 'lucide-react';
 
 // Fisher-Yates shuffle — true random, different every call
 function shufflePosts(array) {
@@ -59,6 +62,7 @@ export default function HomePage() {
     const [weeklyBest, setWeeklyBest] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const isAdmin = getIsAdmin();
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -115,6 +119,23 @@ export default function HomePage() {
     return (
     <div className="min-h-screen bg-white flex flex-col">
         <Navbar />
+
+        {isAdmin && (
+        <div className="max-w-7xl mx-auto w-full px-4 pt-4 group">
+            <Link
+                href="/admin"
+                className="
+                fixed bottom-6 right-6 z-50 flex flex-col items-center gap-2 rounded-full bg-[#183354] px-4 py-4 text-[#FFF] shadow-lg transition-all hover:bg-[#F4796C]"
+            >
+                <UserStar />
+                {/* Admin Dashboard */}
+                <span className="pointer-events-none absolute right-14 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md bg-[#183354] px-3 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg transition-all duration-500 group-hover:opacity-100">
+                Admin Dashboard
+                <span className="absolute left-full top-1/2 -translate-y-1/2 border-4 border-transparent border-l-[#183354]" />
+                </span>
+            </Link>
+        </div>
+        )}
 
         {/* Hero — 4 random posts, reshuffled on every page load */}
         <HeroSection posts={heroPosts} />

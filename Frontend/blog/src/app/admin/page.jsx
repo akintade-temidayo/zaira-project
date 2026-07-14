@@ -11,6 +11,7 @@ import Button from "@/components/ui/Button";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../../../blog/public/logo.png";
+import { CircleArrowLeft } from 'lucide-react';
 
 export default function AdminPage() {
     const router = useRouter();
@@ -103,12 +104,6 @@ export default function AdminPage() {
                     <div className="flex items-center gap-4">
                         <h1 className="flex flex-col gap-1 text-white font-bold text-lg">
                             Zaira Admin
-
-                        <Link
-                            href="/"
-                            className="text-[#7C91AA] hover:text-white text-sm transition-colors">
-                            ← View Site
-                        </Link>
                         </h1>
                     </div>
                     <Button variant="primary" size="sm" onClick={handleLogout}>
@@ -119,21 +114,25 @@ export default function AdminPage() {
             
             <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
                 {loading ? (
-                    <div className="flex items-center justify-center min-h-screen">
-                                    <Image
-                                        src={logo}
-                                        alt="Zaira"
-                                        height={60}
-                                        width={0}
-                                        style={{ height: "60px", width: "auto" }}
-                                        className="animate-pulse"
-                                        priority
-                                    />
-                                </div>
+                    <div className="min-h-screen flex items-center justify-center gap-2 flex-col">
+                        <p className="text-md text-[#F4796C] font-bold">Loading...Please wait</p>
+                        <div className="flex gap-1 pb-2">
+                    <span className="dot w-4 h-4 rounded-2xl bg-[#F4796C] inline-block" />
+                    <span className="dot w-4 h-4 rounded-2xl bg-[#F4796C] inline-block" />
+                    <span className="dot w-4 h-4 rounded-2xl bg-[#F4796C] inline-block" />
+                </div>
+                </div>
                 ) : error ? (
                     <p className="text-[#F4796C] text-sm text-center py-20">{error}</p>
                 ) : (
                     <>
+                        <Link
+                            href="/"
+                            className="mb-3 text-sm p-1 text-[#7C91AA] hover:text-[#F4796C] transition-colors flex items-center gap-1">
+                            <CircleArrowLeft />
+                            View site
+                        </Link>
+
                         {/* Stats */}
                         {stats && <StatsCards stats={stats} />}
 

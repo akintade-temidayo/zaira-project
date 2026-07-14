@@ -9,16 +9,16 @@ const hasStorage = () => typeof window !== "undefined";
 
 // --- Token Management (Session Storage) ---
 export const saveToken = (token) => {
-    if (hasStorage() && token) sessionStorage.setItem(TOKEN_KEY, token);
+    if (hasStorage() && token) localStorage.setItem(TOKEN_KEY, token);  
 };
 
 export const getToken = () => {
     if (!hasStorage()) return null;
-    return sessionStorage.getItem(TOKEN_KEY);
+    return localStorage.getItem(TOKEN_KEY);
 };
 
 export const removeToken = () => {
-    if (hasStorage()) sessionStorage.removeItem(TOKEN_KEY);
+    if (hasStorage()) localStorage.removeItem(TOKEN_KEY);
 };
 
 // --- OTP / Auth Flow Management (Session Storage) ---

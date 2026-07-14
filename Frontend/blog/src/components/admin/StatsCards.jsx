@@ -1,3 +1,4 @@
+// stats card
 "use client";
 
 export default function StatsCards({ stats }) {
@@ -7,21 +8,18 @@ export default function StatsCards({ stats }) {
             value: stats.totalUsers,
             bg: "bg-[#183354]",
             text: "text-white",
-            icon: "👥",
         },
         {
             label: "Total Recipes",
             value: stats.totalPosts,
             bg: "bg-[#F4796C]",
             text: "text-white",
-            icon: "🍽️",
         },
         {
             label: "Disabled Accounts",
             value: stats.disabledUsers,
             bg: "bg-white",
             text: "text-[#0C1622]",
-            icon: "🚫",
             border: true,
         },
     ];

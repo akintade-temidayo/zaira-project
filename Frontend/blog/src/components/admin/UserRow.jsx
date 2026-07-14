@@ -1,3 +1,4 @@
+// user row
 "use client";
 
 export default function UserRow({ user, onDisable, onReactivate }) {

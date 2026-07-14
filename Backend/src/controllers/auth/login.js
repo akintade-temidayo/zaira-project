@@ -46,7 +46,8 @@ const login = async (req, res) =>{
                 disabled: true
             })
         }
-
+        console.log(process.env.ADMIN_EMAILS)
+        
         // successful login
         const adminEmails = process.env.ADMIN_EMAILS
             ? process.env.ADMIN_EMAILS.split(',').map(e => e.trim().toLowerCase())
